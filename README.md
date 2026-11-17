@@ -66,6 +66,47 @@ ai-powered-business-intelligence/
 
 Currently in development.
 
+## Data Cleaning and Exploratory Data Analysis
+
+### Data Cleaning
+Used Python, Pandas, and NumPy to:
+- Inspect missing values and duplicate records.
+- Convert timestamp columns into appropriate datetime formats.
+- Validate numerical fields.
+- Identify missing product categories and delivery timestamps.
+- Preserve optional fields rather than filling them with arbitrary values.
+
+### SQL Analysis
+Used PostgreSQL to perform:
+- Revenue analysis by product category.
+- Month-over-month revenue trend analysis.
+- Customer purchase and repeat purchase analysis.
+- Customer revenue segmentation using `NTILE()`.
+- Payment method analysis.
+- Revenue anomaly detection using common table expressions and statistical thresholds.
+
+### Exploratory Data Analysis
+Created an EDA notebook using Pandas, Matplotlib, and Seaborn.
+
+The notebook includes:
+- Dataset overview and data quality checks.
+- Missing-value visualizations.
+- Product category revenue analysis.
+- Monthly revenue trends.
+- Customer behavior and segmentation.
+- Payment method analysis.
+- Customer satisfaction analysis.
+
+### Key Business Findings
+- Health & Beauty was the highest-revenue product category.
+- The repeat purchase rate was approximately 3%.
+- High-value customers contributed approximately 57% of customer revenue.
+- Credit cards were the dominant payment method.
+- Several unusually high-revenue orders were identified for further investigation.
+
+### Tools Used
+Python | Pandas | NumPy | PostgreSQL | SQL | Matplotlib | Seaborn
+
 ## Author
 
 Alisha Rawat
