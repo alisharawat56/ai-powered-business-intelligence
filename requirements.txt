@@ -3,3 +3,7 @@ numpy
 sqlalchemy
 psycopg2-binary
 python-dotenv
+jupyter
+ipykernel
+matplotlib
+seaborn
