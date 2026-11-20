@@ -380,6 +380,30 @@ Implemented a local LLM-powered business insights feature using **Ollama** and t
 
 **Important:** AI-generated recommendations are suggestions, not verified business findings. Factual observations are generated from calculated KPIs to reduce the risk of LLM hallucinations. Basic validation does not guarantee that every generated recommendation is factually correct.
 
+### AI-Powered Business Insights
+
+The project includes an AI-assisted business intelligence layer that converts calculated business metrics into structured business insights.
+
+**Implemented features:**
+- Generates executive-style insights using calculated customer and revenue KPIs.
+- Includes supporting metrics and separates measured facts from possible explanations.
+- Produces business recommendations based on customer-segment performance and repeat purchase behavior.
+- Answers a business question about monthly revenue decline using historical monthly revenue data.
+- Returns structured JSON containing insights, recommendations, supporting metrics, and limitations.
+
+**Business question example:**
+
+"Why did revenue decline this month?"
+
+The system compares the latest two available months and calculates the revenue change and percentage change. It distinguishes the measured decline from its possible causes, rather than claiming an unsupported explanation.
+
+**LLM integration:**
+
+Ollama was installed and tested locally using the Qwen 3.5 0.8B model. The current production insight-generation and business-question logic uses Python-based calculations and rules to prioritize numerical accuracy and avoid unsupported LLM-generated claims.
+
+**Output:** `docs/ai_insights_sample.json`
+**Main implementation:** `src/generate_insights.py`
+
 ## Key Business Findings
 
 ### Sales and Product Performance

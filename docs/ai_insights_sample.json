@@ -1,7 +1,53 @@
 {
-    "business_insight_1": "High-value customers generated R$7,486,237.06 in historical revenue.",
-    "business_insight_2": "Mid-value customers generated R$3,529,087.20 in historical revenue.",
-    "business_insight_3": "2,801 out of 93,358 unique customers were repeat customers. The repeat purchase rate was 3.00%.",
-    "business_recommendation_1": "Test targeted loyalty incentives to encourage repeat purchases.",
-    "business_recommendation_2": "Test customer segmentation and personalization strategies through controlled experiments."
+    "business_insights": {
+        "business_insight_1": "High-value customers generated R$7,486,237.06 in historical revenue.",
+        "business_insight_2": "Mid-value customers generated R$3,529,087.20 in historical revenue.",
+        "business_insight_3": "2,801 out of 93,358 unique customers were repeat customers. The repeat purchase rate was 3.00%.",
+        "business_recommendation_1": "Investigate opportunities to encourage repeat purchases, considering the current repeat purchase rate of 3.00%.",
+        "business_recommendation_2": "Review the revenue contribution of high-value, mid-value, and low-value customer segments when prioritizing future customer engagement initiatives.",
+        "measured_facts": [
+            {
+                "statement": "High-value customers generated R$7,486,237.06 in historical revenue.",
+                "supporting_metrics": {
+                    "high_value_revenue_brl": 7486237.06,
+                    "share_of_segment_revenue_pct": 56.62
+                }
+            },
+            {
+                "statement": "Mid-value customers generated R$3,529,087.20 in historical revenue.",
+                "supporting_metrics": {
+                    "mid_value_revenue_brl": 3529087.2,
+                    "share_of_segment_revenue_pct": 26.69
+                }
+            },
+            {
+                "statement": "The repeat purchase rate was 3.00%.",
+                "supporting_metrics": {
+                    "unique_customers": 93358,
+                    "repeat_customers": 2801,
+                    "repeat_purchase_rate": 3.0
+                }
+            }
+        ],
+        "possible_explanations": [
+            {
+                "hypothesis": "There may be opportunities to improve customer retention.",
+                "supporting_evidence": "The observed repeat purchase rate was 3.00%.",
+                "limitation": "The available metrics do not establish why customers do not make repeat purchases."
+            }
+        ]
+    },
+    "business_question": {
+        "question": "why did revenue decline this month?",
+        "answer": "Revenue declined from R$867,953.46 in 2018-07 to R$838,576.64 in 2018-08. The change was -3.38%. The available monthly revenue data does not establish the cause of this change.",
+        "measured_metrics": {
+            "previous_month": "2018-07",
+            "previous_revenue_brl": 867953.46,
+            "current_month": "2018-08",
+            "current_revenue_brl": 838576.64,
+            "revenue_change_brl": -29376.82,
+            "revenue_growth_percentage": -3.38
+        },
+        "limitation": "Monthly revenue figures alone cannot explain why revenue changed."
+    }
 }
