@@ -374,7 +374,7 @@ Upcoming:
 
 **Alisha Rawat**
 
-Master's Student in Information Management  
+Master's Graduate in Information Management  
 University of Illinois Urbana-Champaign
 
 GitHub: [alisharawat56](https://github.com/alisharawat56)
