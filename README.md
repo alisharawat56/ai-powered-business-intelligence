@@ -32,9 +32,9 @@ The project focuses on understanding sales performance, customer behavior, reten
 | Database | PostgreSQL |
 | Query Language | SQL |
 | Data Visualization | Matplotlib, Seaborn |
-| Machine Learning | Scikit-learn |
+| Machine Learning | Scikit-learn, K-Means, Joblib |
 | Dashboard | Tableau / Power BI, Streamlit |
-| AI Integration | LLM API |
+| AI Integration | Ollama, Qwen 3.5 (0.8B) |
 | Development | VS Code, Jupyter Notebook |
 | Version Control | Git, GitHub |
 
@@ -79,7 +79,13 @@ ai-powered-business-intelligence/
 │   ├── clean_data.py
 │   ├── inspect_missing.py
 │   ├── refine_cleaning.py
-│   └── update_database.py
+│   ├── update_database.py
+│   ├── prepare_customer_features.py
+│   ├── scale_customer_features.py
+│   ├── evaluate_clusters.py
+│   ├── customer_clustering.py
+│   ├── test_ollama.py
+│   └── generate_insights.py
 │
 ├── sql/
 │   ├── 01_data_quality.sql
@@ -88,8 +94,12 @@ ai-powered-business-intelligence/
 │   ├── 04_customer_analysis.sql
 │   └── 05_business_analytics.sql
 │
+├── models/
+│   └── kmeans_customer_segments.joblib
+│
 ├── dashboard/
 ├── docs/
+│   └── ai_insights_sample.json
 │
 ├── requirements.txt
 ├── .env.example
@@ -171,6 +181,16 @@ python src/inspect_missing.py
 python src/refine_cleaning.py
 python src/update_database.py
 ```
+
+### 8. Set up Ollama
+
+Install Ollama and download the Qwen model:
+
+```bash
+ollama pull qwen3.5:0.8b
+```
+
+Make sure the Ollama service is running before executing the AI insights script.
 
 ## Project Progress
 
@@ -271,6 +291,95 @@ Customers were scored using five groups for each RFM dimension and classified in
 - Analyzed freight as a percentage of product value.
 - Investigated how shipping costs vary across order-value ranges.
 
+### Phase 5: Machine Learning — Customer Segmentation with K-Means — Completed
+
+Applied Scikit-learn to perform unsupervised customer segmentation using Recency, Frequency, and Monetary features.
+
+**Feature Engineering and Scaling**
+
+- Prepared customer-level RFM features using Python and SQL-derived metrics.
+- Examined feature distributions and skewness.
+- Applied logarithmic transformation using `log1p()`.
+- Standardized features using `StandardScaler`.
+
+**Cluster Evaluation**
+
+Evaluated K-Means clustering solutions for K values ranging from 2 to 8.
+
+- Used the Elbow Method to examine cluster inertia.
+- Used silhouette scores to evaluate cluster separation.
+- Selected four clusters as a business-oriented compromise between cluster separation and interpretability.
+
+The silhouette score for four clusters was approximately 0.3926, calculated using a sample of 5,000 customers.
+
+**Cluster Interpretation**
+
+Four customer groups were identified:
+
+| Cluster | Customers | Average Recency (Days) | Average Frequency | Average Monetary (R$) |
+|---|---:|---:|---:|---:|
+| 0 | 37,665 | 278.98 | 1.00 | 237.26 |
+| 1 | 36,601 | 285.20 | 1.00 | 45.10 |
+| 2 | 2,801 | 220.81 | 2.11 | 260.05 |
+| 3 | 16,291 | 42.93 | 1.00 | 116.99 |
+
+Business interpretations:
+
+- **Cluster 0:** Higher-spending, mostly one-time customers with less recent purchases.
+- **Cluster 1:** Lower-spending, mostly one-time customers with less recent purchases.
+- **Cluster 2:** Repeat purchasers with the highest average frequency and monetary value.
+- **Cluster 3:** Recently active customers with mostly one-time purchases.
+
+**Comparison with RFM Segmentation**
+
+Compared K-Means clusters against rule-based RFM segments using:
+
+- Adjusted Rand Index (ARI): 0.2606
+- Normalized Mutual Information (NMI): 0.3615
+
+These results indicate some agreement between the two segmentation approaches, but not strong equivalence.
+
+The comparison highlights that rule-based RFM segmentation and unsupervised clustering capture different aspects of customer behavior.
+
+**Model Persistence**
+
+Saved the trained K-Means model using Joblib:
+
+```text
+models/kmeans_customer_segments.joblib
+```
+
+The clusters are exploratory groups, not ground-truth customer labels or predictions of future behavior.
+
+### Phase 6: AI-Powered Business Insights with Ollama — Completed
+
+Implemented a local LLM-powered business insights feature using **Ollama** and the Qwen 3.5 (0.8B) model.
+
+**Features**
+
+- Uses verified business KPIs calculated through Python and SQL.
+- Generates factual business observations directly in Python.
+- Uses the local LLM to generate business recommendations.
+- Returns structured JSON containing three business insights and two recommendations.
+- Includes basic validation to reject missing fields and selected unsupported claims.
+
+**Key Business Metrics Used**
+
+- High-value customer revenue: R$7,486,237.06
+- Mid-value customer revenue: R$3,529,087.20
+- Low-value customer revenue: R$2,206,173.85
+- Unique customers: 93,358
+- Repeat customers: 2,801
+- Repeat purchase rate: 3.00%
+
+**Implementation**
+
+- `src/generate_insights.py` – Generates and validates business insights.
+- `src/test_ollama.py` – Tests the local Ollama integration.
+- `docs/ai_insights_sample.json` – Example structured AI insights output.
+
+**Important:** AI-generated recommendations are suggestions, not verified business findings. Factual observations are generated from calculated KPIs to reduce the risk of LLM hallucinations. Basic validation does not guarantee that every generated recommendation is factually correct.
+
 ## Key Business Findings
 
 ### Sales and Product Performance
@@ -323,6 +432,8 @@ This suggests opportunities to investigate free-shipping thresholds and product 
 - Voucher payments cannot be treated as direct evidence of discounts.
 - RFM segmentation is based on historical purchasing behavior and does not predict future churn.
 - Historical customer revenue should not be interpreted as predictive customer lifetime value.
+- K-Means clusters are exploratory segments and should not be treated as ground-truth customer classifications.
+- The LLM can generate unsupported recommendations, so its output requires review.
 
 ## SQL Concepts Applied
 
@@ -341,18 +452,17 @@ This suggests opportunities to investigate free-shipping thresholds and product 
 
 The following components are planned for future phases:
 
-- Customer clustering using Scikit-learn.
-- Advanced customer behavior analysis.
 - Interactive business intelligence dashboards using Tableau or Power BI.
 - Streamlit application for interactive analytics.
-- LLM integration for natural-language business insights and recommendations.
+- Integration of analytics, machine learning, and AI insights into a unified application.
 - Automated business intelligence reporting.
+- Further evaluation and refinement of customer segmentation.
 
 ## Project Status
 
-<ins>Currently in development.</ins>
+**Currently in development.**
 
-Completed so far:
+Completed:
 
 - Data loading and PostgreSQL setup.
 - Data cleaning and preparation.
@@ -362,19 +472,22 @@ Completed so far:
 - Cohort retention analysis.
 - RFM customer segmentation.
 - Order value and freight analysis.
+- K-Means customer clustering.
+- Feature scaling and cluster evaluation.
+- Comparison of K-Means and RFM segments.
+- Ollama-powered business insights and recommendations.
 
 Upcoming:
 
-- Machine learning and customer clustering.
 - Dashboard development.
-- LLM-powered business recommendations.
+- Streamlit application.
 - End-to-end application integration.
 
 ## Author
 
 **Alisha Rawat**
 
-Master's Graduate in Information Management  
+Master's Student in Information Management  
 University of Illinois Urbana-Champaign
 
 GitHub: [alisharawat56](https://github.com/alisharawat56)
