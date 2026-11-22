@@ -380,6 +380,41 @@ Implemented a local LLM-powered business insights feature using **Ollama** and t
 
 **Important:** AI-generated recommendations are suggestions, not verified business findings. Factual observations are generated from calculated KPIs to reduce the risk of LLM hallucinations. Basic validation does not guarantee that every generated recommendation is factually correct.
 
+### Phase 7: Interactive Business Intelligence Dashboard
+
+Built an interactive dashboard using **Streamlit** to present key e-commerce business insights in an accessible, executive-friendly format.
+
+**Dashboard Features**
+
+- **KPI Overview:** Displays total revenue, delivered orders, unique customers, and repeat purchase rate.
+- **Monthly Revenue Trends:** Visualizes monthly revenue performance over time.
+- **Customer Segmentation:** Presents customer groups identified using K-Means clustering, with business-friendly segment labels.
+- **Product Category Analysis:** Highlights the top-performing product categories by revenue.
+- **Interactive Filters:** Allows users to filter dashboard views by date range, customer segment, and product category.
+- **AI-Powered Executive Summary:** Integrates a locally running Ollama language model (`qwen3.5:0.8b`) to generate business summaries from verified metrics.
+- **Business Question Interface:** Allows users to ask supported business questions and receive data-backed responses.
+
+**Technologies Used**
+
+- Python
+- Streamlit
+- Pandas and NumPy
+- PostgreSQL and SQL
+- Scikit-learn
+- Ollama (Qwen 3.5 0.8B)
+
+**Running the Dashboard**
+
+Activate the project virtual environment and run:
+
+```bash
+streamlit run dashboard/app.py
+```
+
+The dashboard uses historical e-commerce data covering September 2016 through August 2018.
+
+**Note:** The Ollama-generated executive summary is experimental. Its output should be reviewed against the underlying business metrics before making business decisions. The business question interface currently supports a limited set of questions.
+
 ### AI-Powered Business Insights
 
 The project includes an AI-assisted business intelligence layer that converts calculated business metrics into structured business insights.
